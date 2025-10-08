@@ -1,3 +1,2 @@
 # Hyenas-website
-this is my website version it's just a working progress
-file:///C:/Users/thorn/Downloads/test.html
+this is my website version it's just a working progress please dont be disapointed if this doesnt work
