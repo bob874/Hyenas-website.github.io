@@ -7,165 +7,206 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f5f5f5;
       margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1em;
       text-align: center;
     }
-    header {
-      background: #222;
-      color: #f5f5f5;
-      padding: 1rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-    #banner {
-      background: orange;
-      color: black;
-      padding: 0.7rem;
-      font-weight: bold;
-      display: none;
-    }
+
     nav {
-      margin: 1rem 0;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      padding: 0.5em;
     }
-    select {
-      padding: 0.5rem;
-      font-size: 1rem;
-      border-radius: 8px;
+
+    nav button {
+      background-color: #444;
+      color: white;
       border: none;
+      padding: 0.7em 1em;
+      margin: 0 0.3em;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
     }
+
+    nav button:hover {
+      background-color: #666;
+    }
+
+    main {
+      padding: 2em;
+      text-align: center;
+    }
+
     section {
       display: none;
-      padding: 2rem;
-      min-height: 70vh;
-      color: #fff;
     }
+
     section.active {
       display: block;
-      animation: fadeIn 0.6s ease-in-out;
     }
+
     #home { background: red; }
     #info { background: brown; color: black; }
     #games { background: blue; }
+    #about { background: darkgreen; }
     #maintenance { background: gray; color: white; }
-    a { color: #fff; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    #info a { color: black; }
+
+    .maintenance-banner {
+      background-color: #ffcc00;
+      color: #000;
+      padding: 1em;
+      margin-bottom: 1em;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
     footer {
+      text-align: center;
       background: #222;
-      color: #f5f5f5;
-      padding: 1rem;
+      color: white;
+      padding: 1em;
       position: fixed;
       bottom: 0;
       width: 100%;
     }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
   </style>
 </head>
 <body>
-  <header>The Hyenas Website</header>
-  <div id="banner"></div>
+  <header>
+    <h1>The Hyenas Website</h1>
+  </header>
 
-  <nav id="navBar">
-    <label for="pageSelect">Choose a section: </label>
-    <select id="pageSelect" onchange="switchPage(this.value)">
-      <option value="home">Home</option>
-      <option value="info">Info</option>
-      <option value="games">Game Mode</option>
-    </select>
+  <nav id="navbar">
+    <button onclick="showSection('home')">Home</button>
+    <button onclick="showSection('info')">Info</button>
+    <button onclick="showSection('games')">Games</button>
+    <button onclick="showSection('about')">About</button>
   </nav>
 
   <main>
+    <div id="banner-container"></div>
+
     <section id="home" class="active">
       <h2>Welcome to The Hyenas Website!</h2>
-      <p>This is the homepage. Explore using the dropdown above.</p>
-      <p>Next update scheduled after maintenance!</p>
+      <p>I hope you enjoy this website! I’ll eventually make it a Minecraft server website when maintenance starts.</p>
+      <p>Next update scheduled soon.</p>
+      <p>Maintenance starts on <span id="startDate"></span> and ends on <span id="endDate"></span>.</p>
     </section>
 
     <section id="info">
       <h2>Website Info</h2>
       <p>👑 Owner: <strong>bob cat</strong></p>
       <p>🛠️ Builder: <strong>ChatGPT</strong></p>
-      <p> ✔️ Admin: <srong>none</strong><p>
-      <p> 😀 Moderator: <srong>none</strong><p>
-      <p> 💸 Helper: <srong>none</strong><p>
-      <p> ✅️ Member: <srong>none</strong><p>
+      <p>🛡️ Admin: <strong>none</strong></p>
+      <p>🧑‍⚖️ Moderator: <strong>none</strong></p>
+      <p>🤝 Helper: <strong>none</strong></p>
+      <p>🎮 Member: <strong>none</strong></p>
     </section>
 
     <section id="games">
-      <h2>Game Mode</h2>
-      <ul style="list-style:none; padding:0;">
-        <li>minecraft.net</li>
-        <li>epicgames.com/fortnite</li>
-        <li>roblox.com</li>
-        
-        <p><em>More coming soon...</em></p>
-        <il>all the games are sponsored by this website i always give credit to them thank you for seeing this :)</il>
+      <h2>Our Games</h2>
+      <ul>
+        <li>Google.com</li>
+        <li>Minecraft.net</li>
+        <li>Epicgames.com</li>
       </ul>
+    </section>
+
+    <section id="about">
+      <h2>About The Hyenas</h2>
+      <p>This is now the Hyenas Minecraft server website.</p>
     </section>
 
     <section id="maintenance">
       <h2>Maintenance Mode</h2>
-      <p>The website is currently under maintenance. Please wait till the end</p>
-      <p>⏰ Maintenance Period:</p>
-      <p><span id="startDate"></span> → <span id="endDate"></span></p>
+      <p>The site is currently under maintenance. We’ll be back soon!</p>
+      <p>Please wait till the website is unlocked.</p>
+      <p>⏰ Maintenance Period: <span id="startDate2"></span> → <span id="endDate2"></span></p>
+      <div class="countdown">Time left: <span id="countdown"></span></div>
     </section>
   </main>
 
   <footer>
-    ©️ The Hyenas website <span id="year"></span>
+    <p>© <span id="year"></span> The Hyenas</p>
   </footer>
 
   <script>
-    // === AUTO YEAR + MAINTENANCE DATES ===
-    const year = new Date().getFullYear();
-    document.getElementById("year").textContent = year;
+    // === Auto year ===
+    const yearNow = new Date().getFullYear();
+    document.getElementById("year").textContent = yearNow;
 
-    const maintenanceStart = `${year}-10-20`;
-    const maintenanceEnd = `${year}-11-01`;
+    // === Auto today → tomorrow maintenance ===
+    const now = new Date();
+    const maintenanceStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21, 0);
+    const maintenanceEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 13, 0);
 
-    document.getElementById("startDate").textContent = maintenanceStart;
-    document.getElementById("endDate").textContent = maintenanceEnd;
-
-    const today = new Date();
-    const start = new Date(maintenanceStart);
-    const end = new Date(maintenanceEnd);
-
-    const navBar = document.getElementById("navBar");
-    const banner = document.getElementById("banner");
-    const maintenanceSection = document.getElementById("maintenance");
-    const sections = document.querySelectorAll("section");
-
-    // === SHOW MAINTENANCE BANNER ===
-    if (today < start) {
-      const daysLeft = Math.ceil((start - today) / (1000 * 60 * 60 * 24));
-      banner.style.display = "block";
-      banner.textContent = `⚙️ Scheduled Maintenance: ${maintenanceStart} → ${maintenanceEnd} (in ${daysLeft} day${daysLeft !== 1 ? "s" : ""})`;
-    } 
-    else if (today >= start && today <= end) {
-      banner.style.display = "block";
-      banner.style.background = "red";
-      banner.style.color = "white";
-      banner.textContent = `🚧 Maintenance Mode Active (${maintenanceStart} → ${maintenanceEnd})`;
-
-      // Hide other pages during maintenance
-      navBar.innerHTML = `
-        <label>Choose a section: </label>
-        <select disabled>
-          <option>Maintenance Mode Active</option>
-        </select>
-      `;
-      sections.forEach(s => s.classList.remove("active"));
-      maintenanceSection.classList.add("active");
+    function formatUKDate(date) {
+      const day = String(date.getDate()).padStart(2,"0");
+      const month = String(date.getMonth()+1).padStart(2,"0");
+      const year = date.getFullYear();
+      let hour = date.getHours();
+      const ampm = hour >= 12 ? "PM" : "AM";
+      hour = hour % 12;
+      hour = hour ? hour : 12;
+      const min = String(date.getMinutes()).padStart(2,"0");
+      return `${day}/${month}/${year} ${hour}:${min} ${ampm}`;
     }
 
-    // === NORMAL PAGE SWITCH ===
-    function switchPage(pageId) {
-      sections.forEach(section => section.classList.remove("active"));
-      const selected = document.getElementById(pageId);
-      if (selected) selected.classList.add("active");
+    document.getElementById("startDate").textContent = formatUKDate(maintenanceStart);
+    document.getElementById("endDate").textContent = formatUKDate(maintenanceEnd);
+    document.getElementById("startDate2").textContent = formatUKDate(maintenanceStart);
+    document.getElementById("endDate2").textContent = formatUKDate(maintenanceEnd);
+
+    const bannerContainer = document.getElementById("banner-container");
+    const navbar = document.getElementById("navbar");
+    const sections = document.querySelectorAll("main section");
+
+    function showSection(id) {
+      sections.forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    function updateBannerCountdown(targetTime, messagePrefix) {
+      bannerContainer.innerHTML = `<div class="maintenance-banner">${messagePrefix} <span id="countdown"></span></div>`;
+      const countdownEl = document.getElementById("countdown");
+
+      function update() {
+        const nowTime = new Date();
+        const diff = targetTime - nowTime;
+        if (diff <= 0) {
+          countdownEl.textContent = "Maintenance started!";
+          location.reload();
+          return;
+        }
+        const days = Math.floor(diff / (1000*60*60*24));
+        const hours = Math.floor((diff / (1000*60*60)) % 24);
+        const mins = Math.floor((diff / (1000*60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+        countdownEl.textContent = `${days}D ${hours}H ${mins}M ${secs}S`;
+      }
+
+      update();
+      setInterval(update, 1000);
+    }
+
+    // Maintenance Mode Logic
+    const nowTime = new Date();
+    if (nowTime >= maintenanceStart && nowTime <= maintenanceEnd) {
+      navbar.innerHTML = `<button onclick="showSection('maintenance')">Maintenance Mode</button>`;
+      showSection("maintenance");
+      updateBannerCountdown(maintenanceEnd, `🚧 Maintenance in progress, ends at ${formatUKDate(maintenanceEnd)}. Time left:`);
+    } else if (nowTime < maintenanceStart) {
+      updateBannerCountdown(maintenanceStart, `⚙️ Scheduled maintenance starts at ${formatUKDate(maintenanceStart)}. Begins in:`);
     }
   </script>
 </body>
