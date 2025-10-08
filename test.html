@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Hyenas Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      text-align: center;
+    }
+    header {
+      background: #222;
+      color: #f5f5f5;
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    #banner {
+      background: orange;
+      color: black;
+      padding: 0.7rem;
+      font-weight: bold;
+      display: none;
+    }
+    nav {
+      margin: 1rem 0;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+    }
+    section {
+      display: none;
+      padding: 2rem;
+      min-height: 70vh;
+      color: #fff;
+    }
+    section.active {
+      display: block;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    #home { background: red; }
+    #info { background: brown; color: black; }
+    #games { background: blue; }
+    #maintenance { background: gray; color: white; }
+    a { color: #fff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    #info a { color: black; }
+    footer {
+      background: #222;
+      color: #f5f5f5;
+      padding: 1rem;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+  <header>The Hyenas Website</header>
+  <div id="banner"></div>
+
+  <nav id="navBar">
+    <label for="pageSelect">Choose a section: </label>
+    <select id="pageSelect" onchange="switchPage(this.value)">
+      <option value="home">Home</option>
+      <option value="info">Info</option>
+      <option value="games">Game Mode</option>
+    </select>
+  </nav>
+
+  <main>
+    <section id="home" class="active">
+      <h2>Welcome to The Hyenas Website!</h2>
+      <p>This is the homepage. Explore using the dropdown above.</p>
+      <p>Next update scheduled after maintenance!</p>
+    </section>
+
+    <section id="info">
+      <h2>Website Info</h2>
+      <p>👑 Owner: <strong>bob cat</strong></p>
+      <p>🛠️ Builder: <strong>ChatGPT</strong></p>
+      <p> ✔️ Admin: <srong>none</strong><p>
+      <p> 😀 Moderator: <srong>none</strong><p>
+      <p> 💸 Helper: <srong>none</strong><p>
+      <p> ✅️ Member: <srong>none</strong><p>
+    </section>
+
+    <section id="games">
+      <h2>Game Mode</h2>
+      <ul style="list-style:none; padding:0;">
+        <li>minecraft.net</li>
+        <li>epicgames.com/fortnite</li>
+        <li>roblox.com</li>
+        
+        <p><em>More coming soon...</em></p>
+        <il>all the games are sponsored by this website i always give credit to them thank you for seeing this :)</il>
+      </ul>
+    </section>
+
+    <section id="maintenance">
+      <h2>Maintenance Mode</h2>
+      <p>The website is currently under maintenance. Please wait till the end</p>
+      <p>⏰ Maintenance Period:</p>
+      <p><span id="startDate"></span> → <span id="endDate"></span></p>
+    </section>
+  </main>
+
+  <footer>
+    ©️ The Hyenas website <span id="year"></span>
+  </footer>
+
+  <script>
+    // === AUTO YEAR + MAINTENANCE DATES ===
+    const year = new Date().getFullYear();
+    document.getElementById("year").textContent = year;
+
+    const maintenanceStart = `${year}-10-08`;
+    const maintenanceEnd = `${year}-11-01`;
+
+    document.getElementById("startDate").textContent = maintenanceStart;
+    document.getElementById("endDate").textContent = maintenanceEnd;
+
+    const today = new Date();
+    const start = new Date(maintenanceStart);
+    const end = new Date(maintenanceEnd);
+
+    const navBar = document.getElementById("navBar");
+    const banner = document.getElementById("banner");
+    const maintenanceSection = document.getElementById("maintenance");
+    const sections = document.querySelectorAll("section");
+
+    // === SHOW MAINTENANCE BANNER ===
+    if (today < start) {
+      const daysLeft = Math.ceil((start - today) / (1000 * 60 * 60 * 24));
+      banner.style.display = "block";
+      banner.textContent = `⚙️ Scheduled Maintenance: ${maintenanceStart} → ${maintenanceEnd} (in ${daysLeft} day${daysLeft !== 1 ? "s" : ""})`;
+    } 
+    else if (today >= start && today <= end) {
+      banner.style.display = "block";
+      banner.style.background = "red";
+      banner.style.color = "white";
+      banner.textContent = `🚧 Maintenance Mode Active (${maintenanceStart} → ${maintenanceEnd})`;
+
+      // Hide other pages during maintenance
+      navBar.innerHTML = `
+        <label>Choose a section: </label>
+        <select disabled>
+          <option>Maintenance Mode Active</option>
+        </select>
+      `;
+      sections.forEach(s => s.classList.remove("active"));
+      maintenanceSection.classList.add("active");
+    }
+
+    // === NORMAL PAGE SWITCH ===
+    function switchPage(pageId) {
+      sections.forEach(section => section.classList.remove("active"));
+      const selected = document.getElementById(pageId);
+      if (selected) selected.classList.add("active");
+    }
+  </script>
+</body>
+</html>
