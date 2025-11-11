@@ -1,2 +1,2 @@
 # Hyenas-website
-this is my website version it's just a working progress please dont be disapointed if this doesnt work i just had lots of work on this and i am so proud of myself of doing this the maintiance will be changing soon thanks for seeing this
+welcome everyone to this website i made the website is amazing if you want to make your own website like this one feel free to do so and please make sure to credit me if you want to use this and make it your own version by editing the code on your end like copy this file and paste it in next to it afterward at the bottem put in the text credit by @bob874 if u dont do that i will find you by looking on the ip website this is important its like a copyright website i made
