@@ -147,8 +147,8 @@
 
     // === Auto today → tomorrow maintenance ===
     const now = new Date();
-    const maintenanceStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 30);
-    const maintenanceEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 07, 30);
+    const maintenanceStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 30);
+    const maintenanceEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate()+51, 07, 30);
 
     function formatUKDate(date) {
       const day = String(date.getDate()).padStart(2,"0");
