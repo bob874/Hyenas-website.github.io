@@ -3,211 +3,319 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Hyenas Website</title>
+  <title>The Hyenas</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: #f5f5f5;
+      background-color: #111;
+      color: white;
+      text-align: center;
       margin: 0;
-      padding: 0;
     }
 
     header {
       background-color: #222;
-      color: white;
-      padding: 1em;
-      text-align: center;
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     nav {
-      background-color: #333;
       display: flex;
-      justify-content: center;
-      padding: 0.5em;
+      gap: 8px;
     }
 
-    nav button {
-      background-color: #444;
+    nav button, #loginBtn {
+      background-color: #333;
       color: white;
       border: none;
-      padding: 0.7em 1em;
-      margin: 0 0.3em;
+      margin: 5px;
+      padding: 10px 20px;
+      border-radius: 8px;
       cursor: pointer;
-      border-radius: 5px;
-      transition: background 0.3s;
     }
 
-    nav button:hover {
-      background-color: #666;
-    }
-
-    main {
-      padding: 2em;
-      text-align: center;
+    nav button:hover, #loginBtn:hover {
+      background-color: #555;
     }
 
     section {
       display: none;
+      padding: 20px;
     }
 
     section.active {
       display: block;
     }
 
-    #home { background: red; }
-    #info { background: brown; color: black; }
-    #games { background: blue; }
-    #about { background: darkgreen; }
-    #maintenance { background: gray; color: white; }
-
-    .maintenance-banner {
-      background-color: #ffcc00;
-      color: #000;
-      padding: 1em;
-      margin-bottom: 1em;
+    /* Banner */
+    #banner {
+      background-color: #4a148c;
+      padding: 15px;
       font-weight: bold;
-      border-radius: 10px;
+      color: white;
+      transition: background-color 0.3s ease;
     }
 
-    footer {
-      text-align: center;
-      background: #222;
+    /* Maintenance Active look */
+    .maintenance-active {
+      background-color: #c62828 !important;
+    }
+
+    /* Rank dropdown styling */
+    #ranks {
+      margin: 20px;
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    .rank-dropdown {
+      margin-bottom: 10px;
+    }
+
+    .rank-btn {
+      background-color: #2a2a2a;
       color: white;
-      padding: 1em;
-      position: fixed;
-      bottom: 0;
+      padding: 10px 15px;
       width: 100%;
+      text-align: left;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .rank-btn:hover {
+      background-color: #444;
+    }
+
+    .rank-content {
+      display: none;
+      padding: 10px;
+      background-color: #333;
+      border-radius: 0 0 8px 8px;
+      color: #ccc;
+    }
+
+    .rank-dropdown.active .rank-content {
+      display: block;
+    }
+
+    /* Maintenance Panel */
+    #maintenance {
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 500px;
+      margin: 30px auto;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+
+    #maintenance h2 {
+      color: #ffcc00;
+      text-shadow: 0 0 10px #ffcc00;
+    }
+
+    #maintenance p {
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    #toggleMaintenance {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    #toggleMaintenance.off {
+      background-color: #f44336;
+    }
+
+    #toggleMaintenance:hover {
+      opacity: 0.9;
+    }
+
+    /* Hide nav when logged out */
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
+
 <body>
+  <div id="banner">
+    <span id="bannerMessage"></span>
+  </div>
+
   <header>
-    <h1>The Hyenas Website</h1>
+    <nav id="navMenu">
+      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('info')">Info</button>
+      <button onclick="showSection('game')">Game</button>
+      <button onclick="showSection('ranks')">Server Ranks</button>
+      <button id="maintenanceBtn" onclick="showSection('maintenance')" class="hidden">Maintenance</button>
+    </nav>
+    <button id="loginBtn" onclick="toggleLogin()">Login</button>
   </header>
 
-  <nav id="navbar">
-    <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('info')">Info</button>
-    <button onclick="showSection('games')">Games</button>
-    <button onclick="showSection('about')">About</button>
-  </nav>
+  <section id="home" class="active">
+    <h2>Welcome to The Hyenas!</h2>
+    <p>This is the homepage of your private and public server site.</p>
+  </section>
 
-  <main>
-    <div id="banner-container"></div>
+  <section id="info">
+    <h2>Server Info</h2>
+    <p>Information about the server goes here.</p>
+  </section>
 
-    <section id="home" class="active">
-      <h2>Welcome to The Hyenas Website!</h2>
-      <p>I hope you enjoy this website! I’ll eventually make it a Minecraft server website when maintenance starts.</p>
-      <p>Next update scheduled soon.</p>
-      <p>Maintenance starts on <span id="startDate"></span> and ends on <span id="endDate"></span>.</p>
-    </section>
+  <section id="game">
+    <h2>Game Modes</h2>
+    <p>Details about game modes will be added here.</p>
+  </section>
 
-    <section id="info">
-      <h2>Website Info</h2>
-      <p>👑 Owner: <strong>bob874</strong></p>
-      <p>🛠️ Builder: <strong>ChatGPT</strong></p>
-      <p>🛡️ Admin: <strong>none</strong></p>
-      <p>🧑‍⚖️ Moderator: <strong>none</strong></p>
-      <p>🤝 Helper: <strong>none</strong></p>
-      <p>🎮 Member: <strong>none</strong></p>
-    </section>
+  <section id="ranks">
+    <h2>Server Ranks</h2>
 
-    <section id="games">
-      <h2>Our Games</h2>
-      <ul>
-        <li>Google.com</li>
-        <li>Minecraft.net</li>
-        <li>Epicgames.com</li>
-      </ul>
-    </section>
+    <div class="rank-dropdown">
+      <button class="rank-btn">👑 Owner</button>
+      <div class="rank-content">
+        <p>The Owner manages the entire server and has full control over all systems.</p>
+      </div>
+    </div>
 
-    <section id="about">
-      <h2>About The Hyenas</h2>
-      <p>This is now the Hyenas Minecraft server website.</p>
-    </section>
+    <div class="rank-dropdown">
+      <button class="rank-btn">🏗️ Builder</button>
+      <div class="rank-content">
+        <p>Builders create maps, worlds, and help design events for the community.</p>
+      </div>
+    </div>
 
-    <section id="maintenance">
-      <h2>Maintenance Mode</h2>
-      <p>The site is currently under maintenance. We’ll be back soon!</p>
-      <p>Please wait till the website is unlocked.</p>
-      <p>⏰ Maintenance Period: <span id="startDate2"></span> → <span id="endDate2"></span></p>
-      <div class="countdown">Time left: <span id="countdown"></span></div>
-    </section>
-  </main>
+    <div class="rank-dropdown">
+      <button class="rank-btn">🛠️ Admin</button>
+      <div class="rank-content">
+        <p>Admins manage players, enforce rules, and help maintain the server.</p>
+      </div>
+    </div>
 
-  <footer>
-    <p>© <span id="year"></span> The Hyenas</p>
-  </footer>
+    <div class="rank-dropdown">
+      <button class="rank-btn">🧰 Helper</button>
+      <div class="rank-content">
+        <p>Helpers assist new players and report issues to staff members.</p>
+      </div>
+    </div>
+
+    <div class="rank-dropdown">
+      <button class="rank-btn">💬 Member</button>
+      <div class="rank-content">
+        <p>Members are part of the community who enjoy the server and play fairly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="maintenance">
+    <h2>🛠️ Maintenance Control Panel</h2>
+    <p>Only the Owner can toggle maintenance mode. When maintenance is active, the site will hide all other content.</p>
+    <button id="toggleMaintenance" class="off" onclick="toggleMaintenanceMode()">Enable Maintenance</button>
+    <p id="maintenanceStatus">Current Status: <strong style="color:lightgreen;">Disabled</strong></p>
+  </section>
 
   <script>
-    // === Auto year ===
-    const yearNow = new Date().getFullYear();
-    document.getElementById("year").textContent = yearNow;
+    const bannerMessage = document.getElementById("bannerMessage");
+    const navMenu = document.getElementById("navMenu");
+    const maintenanceBtn = document.getElementById("maintenanceBtn");
+    const banner = document.getElementById("banner");
+    let maintenanceEnabled = true;
+    let loggedIn = false;
+    const roles = ["Owner", "Builder", "Admin", "Moderator", "Helper", "Member"];
 
-    // === Auto today → tomorrow maintenance ===
-    const now = new Date();
-    const maintenanceStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 30);
-    const maintenanceEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 07, 30);
-
-    function formatUKDate(date) {
-      const day = String(date.getDate()).padStart(2,"0");
-      const month = String(date.getMonth()+1).padStart(2,"0");
-      const year = date.getFullYear();
-      let hour = date.getHours();
-      const ampm = hour >= 12 ? "PM" : "AM";
-      hour = hour % 12;
-      hour = hour ? hour : 12;
-      const min = String(date.getMinutes()).padStart(2,"0");
-      return `${day}/${month}/${year} ${hour}:${min} ${ampm}`;
+    function updateBanner() {
+      if (maintenanceEnabled) {
+        banner.classList.add("maintenance-active");
+        bannerMessage.innerHTML = "🚧 The server is currently under maintenance. Please check back later.";
+        if (logggedIn) navMenu.classList.add("hidden");
+      } else {
+        banner.classList.remove("maintenance-active");
+        bannerMessage.innerHTML = "✅ The server is running normally.";
+        if (role === "Owner") navMenu.classList.remove("hidden");
+      }
     }
 
-    document.getElementById("startDate").textContent = formatUKDate(maintenanceStart);
-    document.getElementById("endDate").textContent = formatUKDate(maintenanceEnd);
-    document.getElementById("startDate2").textContent = formatUKDate(maintenanceStart);
-    document.getElementById("endDate2").textContent = formatUKDate(maintenanceEnd);
+    function toggleMaintenanceMode() {
+      maintenanceEnabled = !maintenanceEnabled;
+      const toggleBtn = document.getElementById("toggleMaintenance");
+      const statusText = document.getElementById("maintenanceStatus");
 
-    const bannerContainer = document.getElementById("banner-container");
-    const navbar = document.getElementById("navbar");
-    const sections = document.querySelectorAll("main section");
+      if (maintenanceEnabled) {
+        toggleBtn.textContent = "Disable Maintenance";
+        toggleBtn.classList.remove("off");
+        statusText.innerHTML = 'Current Status: <strong style="color:#ff4444;">Enabled</strong>';
+      } else {
+        toggleBtn.textContent = "Enable Maintenance";
+        toggleBtn.classList.add("off");
+        statusText.innerHTML = 'Current Status: <strong style="color:lightgreen;">Disabled</strong>';
+      }
+
+      updateBanner();
+    }
 
     function showSection(id) {
-      sections.forEach(sec => sec.classList.remove("active"));
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
       document.getElementById(id).classList.add("active");
     }
 
-    function updateBannerCountdown(targetTime, messagePrefix) {
-      bannerContainer.innerHTML = `<div class="maintenance-banner">${messagePrefix} <span id="countdown"></span></div>`;
-      const countdownEl = document.getElementById("countdown");
+    function toggleLogin() {
+      const btn = document.getElementById("loginBtn");
 
-      function update() {
-        const nowTime = new Date();
-        const diff = targetTime - nowTime;
-        if (diff <= 0) {
-          countdownEl.textContent = "Maintenance started!";
-          location.reload();
-          return;
+      if (!loggedIn) {
+        const role = prompt("Enter your role (Owner / Builder / Admin / Moderator / Helper / Member):");
+        if (role && roles.includes(role)) {
+          loggedIn = true;
+          btn.textContent = "Logout";
+          navMenu.classList.remove("hidden");
+
+          if (role === "Owner") {
+            maintenanceBtn.classList.remove("hidden");
+          } else {
+            maintenanceBtn.classList.add("hidden");
+          }
+
+          alert(`${role} logged in successfully.`);
+        } else {
+          alert("Invalid role. Please try again.");
         }
-        const days = Math.floor(diff / (1000*60*60*24));
-        const hours = Math.floor((diff / (1000*60*60)) % 24);
-        const mins = Math.floor((diff / (1000*60)) % 60);
-        const secs = Math.floor((diff / 1000) % 60);
-        countdownEl.textContent = `${days}D ${hours}H ${mins}M ${secs}S`;
+      } else {
+        if (confirm("Are you sure you want to logout?")) {
+          loggedIn = false;
+          btn.textContent = "Login";
+          navMenu.classList.add("hidden");
+          maintenanceBtn.classList.add("hidden");
+          document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+          showSection('home');
+        }
       }
-
-      update();
-      setInterval(update, 1000);
     }
 
-    // Maintenance Mode Logic
-    const nowTime = new Date();
-    if (nowTime >= maintenanceStart && nowTime <= maintenanceEnd) {
-      navbar.innerHTML = `<button onclick="showSection('maintenance')">Maintenance Mode</button>`;
-      showSection("maintenance");
-      updateBannerCountdown(maintenanceEnd, `🚧 Maintenance in progress, ends at ${formatUKDate(maintenanceEnd)}. Time left:`);
-    } else if (nowTime < maintenanceStart) {
-      updateBannerCountdown(maintenanceStart, `⚙️ Scheduled maintenance starts at ${formatUKDate(maintenanceStart)}. Begins in:`);
-    }
+    // Rank dropdowns
+    document.querySelectorAll(".rank-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        const dropdown = button.parentElement;
+        dropdown.classList.toggle("active");
+      });
+    });
+
+    // Default states
+    document.getElementById("navMenu").classList.add("hidden");
+    document.getElementById("maintenanceBtn").classList.add("hidden");
+    updateBanner();
   </script>
 </body>
 </html>
