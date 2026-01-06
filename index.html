@@ -277,7 +277,7 @@
       const btn = document.getElementById("loginBtn");
 
       if (!loggedIn) {
-        const role = prompt("Enter your role (Owner / Builder / Admin / Moderator / Helper / Member):");
+        const role = prompt("(please Type Member in the text box below ⬇️):");
         if (role && roles.includes(role)) {
           loggedIn = true;
           btn.textContent = "Logout";
