@@ -241,12 +241,11 @@
       if (maintenanceEnabled) {
         banner.classList.add("maintenance-active");
         bannerMessage.innerHTML = "🚧 The server is currently under maintenance. Please check back later.";
-        navMenu.classList.add("hidden");
-        if (role === "Owner") navMenu.classList.remove("hidden");
+        if (LoggedIn) navMenu.classList.add("hidden");
       } else {
         banner.classList.remove("maintenance-active");
         bannerMessage.innerHTML = "✅ The server is running normally.";
-        navMenu.classList.remove("hidden");
+        if (LoggedIn) navMenu.classList.remove("hidden");
       }
     }
 
@@ -255,14 +254,6 @@
       const toggleBtn = document.getElementById("toggleMaintenance");
       const statusText = document.getElementById("maintenanceStatus");
 
-      if (maintenanceEnabled) {
-        toggleBtn.textContent = "Disable Maintenance";
-        toggleBtn.classList.remove("off");
-        statusText.innerHTML = 'Current Status: <strong style="color:#ff4444;">Enabled</strong>';
-      } else {
-        toggleBtn.textContent = "Enable Maintenance";
-        toggleBtn.classList.add("off");
-        statusText.innerHTML = 'Current Status: <strong style="color:lightgreen;">Disabled</strong>';
       }
 
       updateBanner();
