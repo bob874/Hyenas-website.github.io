@@ -241,12 +241,12 @@
       if (maintenanceEnabled) {
         banner.classList.add("maintenance-active");
         bannerMessage.innerHTML = "🚧 The server is currently under maintenance. Please check back later.";
-        if (logggedIn) navMenu.classList.add("hidden");
+        navMenu.classList.add("hidden");
         if (role === "Owner") navMenu.classList.remove("hidden");
       } else {
         banner.classList.remove("maintenance-active");
         bannerMessage.innerHTML = "✅ The server is running normally.";
-        if (loggedIn) navMenu.classList.remove("hidden");
+        navMenu.classList.remove("hidden");
       }
     }
 
